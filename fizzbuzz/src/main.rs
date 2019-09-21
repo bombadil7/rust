@@ -1,5 +1,5 @@
 fn main() {
-    for i in 1..101 {
+    for i in 1..111 {
         println!("{}", fizzbuzz(i));
     }
 }
@@ -8,7 +8,7 @@ fn fizzbuzz(val: u32) -> String {
     let mut str: String = String::new();
 
     if val % 3 == 0 {
-        str = str + &String::from("fizz");
+        str = String::from("fizz");
     }
 
     if val % 5 == 0 {
