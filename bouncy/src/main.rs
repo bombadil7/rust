@@ -123,5 +123,12 @@ impl Ball {
 }
 
 fn main() {
-    println!("{}", Game::new());
+    //println!("{}", Game::new());
+    let mut game = Game::new();
+    let sleep_duration = std::time::Duration::from_millis(33);
+    loop {
+        println!("{}", game);
+        game.step();
+        std::thread::sleep(sleep_duration);
+    }
 }
