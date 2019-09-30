@@ -41,7 +41,7 @@ fn parse_args() -> Result<Frame, ParseError> {
     let mut args = std::env::args();
 
     // skip the command name
-    let _command_name = require_arg(&mut args)?;
+    require_arg(&mut args)?;
 
     let width_str = require_arg(&mut args)?;
     let height_str = require_arg(&mut args)?;
