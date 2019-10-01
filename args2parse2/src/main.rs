@@ -13,19 +13,24 @@ enum ParseError {
     InvalidInteger(String),
 }
 
-fn require_arg(args: &mut Args) -> Result<String, ParseError> {
-    match args.next() {
-        None => Err(ParseError::TooFewArgs),
-        Some(s) => Ok(s),
-    }
-}
+struct ParseArgs(std::env::Args);
 
-fn require_no_args(args: &mut Args) -> Result<(), ParseError> {
-    match args.next() {
-        Some(_) => Err(ParseError::TooManyArgs),
-        // It looks weired, but we're wrapping
-        // the unit value () with the Ok variant.
-        None => Ok(()),
+impl ParseArgs {
+    fn new() -> ParseArgs {
+        ParseArgs(std::env::args())
+    }
+
+    fn require_arg(&mut self) -> Result<String, ParseError> {
+            None => Err(ParseError::TooFewArgs),
+            Some(s) => Ok(s),
+        }
+    }
+
+    fn require_no_args(&mut self) -> Result<(), ParseError> {
+        match self.0.next() {
+            Some(_) => Err(ParseError::TooManyArgs),
+            None => Ok(()),
+        }
     }
 }
 
@@ -38,15 +43,15 @@ fn parse_u32(s: String) -> Result<u32, ParseError> {
 
 fn parse_args() -> Result<Frame, ParseError> {
     //use self::ParseError::*;
-    let mut args = std::env::args();
+    let mut args = ParseArgs::new(); 
 
     // skip the command name
-    require_arg(&mut args)?;
+    args.require_arg()?;
 
-    let width_str = require_arg(&mut args)?;
-    let height_str = require_arg(&mut args)?;
+    let width_str = args.require_arg()?;
+    let height_str = args.require_arg()?;
 
-    require_no_args(&mut args)?;
+    args.require_no_args()?;
 
     let width = parse_u32(width_str)?;
     let height = parse_u32(height_str)?;
