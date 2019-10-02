@@ -1,4 +1,5 @@
 use std::fmt::{Display, Formatter};
+extern crate pancurses;
 
 enum VertDir {
     Up,
@@ -28,11 +29,7 @@ struct Game {
 }
 
 impl Game {
-    fn new() -> Game {
-        let frame = Frame {
-            width: 60,
-            height: 30,
-        };
+    fn new(frame: Frame) -> Game {
         let ball = Ball {
             x: 2,
             y: 4,
@@ -107,7 +104,15 @@ impl Display for Game {
 }
 
 fn main () {
-    let mut game = Game::new();
+    let window = pancurses::initscr();
+
+    let (max_y, max_x) = window.get_max_yx();
+    let frame = Frame {
+        width: max_x as u32,
+        height: max_y as u32,
+    };
+
+    let mut game = Game::new(frame);
     let sleep_duration = std::time::Duration::from_millis(33);
     loop {
         println!("{}", game);
