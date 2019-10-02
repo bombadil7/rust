@@ -44,16 +44,16 @@ impl Game {
 impl Display for Game {
     fn fmt(&self, fmt: &mut Formatter) -> std::fmt::Result {
         let top_bottom = |fmt: &mut Formatter| {
-            write!(fmt, "+");
+            write!(fmt, "+")?;
             for _ in 0..self.frame.width {
-                write!(fmt, "-");
+                write!(fmt, "-")?;
             }
             write!(fmt, "+\n")
         };
 
-        top_bottom(fmt);
+        top_bottom(fmt)?;
         for row in 0..self.frame.height {
-            write!(fmt, "|");
+            write!(fmt, "|")?;
             for column in 0..self.frame.width {
                 //write!(fmt, " ");
                 let c = if row == self.ball.y && column == self.ball.x {
@@ -61,10 +61,10 @@ impl Display for Game {
                 } else {
                     ' '
                 };
-                write!(fmt, "{}", c);
+                write!(fmt, "{}", c)?;
             }
 
-            write!(fmt, "|\n");
+            write!(fmt, "|\n")?;
         }
         top_bottom(fmt)
     }
