@@ -1,5 +1,6 @@
 mod parse_args;
 use std::fmt::{Display, Formatter};
+use self::parse_args::Frame;
 
 enum VertDir {
     Up,
@@ -18,18 +19,13 @@ struct Ball {
     horiz_dir: HorizDir,
 }
 
-struct Frame {
-    width: u32,
-    height: u32,
-}
-
 struct Game {
     frame: Frame,
     ball: Ball,
 }
 
 impl Game {
-    fn new() -> Game {
+    fn new(frame: Frame) -> Game {
         let frame = Frame {
             width: 60,
             height: 30,
@@ -42,22 +38,6 @@ impl Game {
             horiz_dir: HorizDir::Left,
         };
         Game { frame, ball }
-    }
-
-    // implement new() with no lets
-    fn make() -> Game {
-        Game {
-            frame: Frame {
-                width: 60,
-                height: 30,
-            },
-            ball: Ball {
-                x: 2,
-                y: 4,
-                vert_dir: VertDir::Up,
-                horiz_dir: HorizDir::Left,
-            },
-        }
     }
 
     fn step(&mut self) {
@@ -125,12 +105,19 @@ impl Ball {
 
 fn main() {
     println!("{:?}", parse_args::parse_args());
-    return;
-    let mut game = Game::new();
-    let sleep_duration = std::time::Duration::from_millis(33);
-    loop {
-        println!("{}", game);
-        game.step();
-        std::thread::sleep(sleep_duration);
+    match parse_args::parse_args() {
+        Err(e) => {
+            // prints to stderr instead of stdout
+            eprintln!("Error parsing args: {:?}", e);
+        },
+        Ok(frame) => {
+            let mut game = Game::new(frame);
+            let sleep_duration = std::time::Duration::from_millis(33);
+            loop {
+                println!("{}", game);
+                game.step();
+                std::thread::sleep(sleep_duration);
+            }
+        }
     }
 }

@@ -1,7 +1,7 @@
 #[derive(Debug)]
 pub struct Frame {
-    width: u32,
-    height: u32,
+    pub width: u32,
+    pub height: u32,
 }
 
 #[derive(Debug)]
