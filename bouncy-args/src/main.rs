@@ -26,11 +26,6 @@ struct Game {
 
 impl Game {
     fn new(frame: Frame) -> Game {
-        let frame = Frame {
-            width: 60,
-            height: 30,
-        };
-
         let ball = Ball {
             x: 2,
             y: 4,
@@ -104,7 +99,6 @@ impl Ball {
 }
 
 fn main() {
-    println!("{:?}", parse_args::parse_args());
     match parse_args::parse_args() {
         Err(e) => {
             // prints to stderr instead of stdout
