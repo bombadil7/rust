@@ -43,7 +43,7 @@ impl Game {
 
 impl Display for Game {
     fn fmt(&self, fmt: &mut Formatter) -> std::fmt::Result {
-        let mut top_bottom = |fmt: &mut Formatter| {
+        let top_bottom = |fmt: &mut Formatter| {
             write!(fmt, "+");
             for _ in 0..self.frame.width {
                 write!(fmt, "-");
@@ -98,11 +98,12 @@ impl Ball {
     }
 }
 
-fn main() {
+fn main() -> Result<(), self::parse_args::ParseError> {
     match parse_args::parse_args() {
         Err(e) => {
             // prints to stderr instead of stdout
             eprintln!("Error parsing args: {:?}", e);
+            return Err(e);
         },
         Ok(frame) => {
             let mut game = Game::new(frame);

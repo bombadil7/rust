@@ -54,5 +54,10 @@ pub fn parse_args() -> Result<Frame, ParseError> {
     let width = parse_u32(width_str)?;
     let height = parse_u32(height_str)?;
 
+    if width < 1 || height < 1 {
+        eprintln!("The game frame needs to be non-zero size");
+        return Err(ParseError::InvalidInteger("0".to_string())) 
+    }
+
     Ok(Frame { width, height })
 }
