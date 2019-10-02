@@ -43,7 +43,7 @@ fn parse_u32(s: String) -> Result<u32, ParseError> {
 }
 
 pub fn parse_args() -> Result<Frame, ParseError> {
-    let mut args = ParseArgs::new(); 
+    let mut args = ParseArgs::new();
 
     // skip the command name
     args.require_arg()?;

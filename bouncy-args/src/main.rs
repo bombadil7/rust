@@ -1,6 +1,6 @@
 mod parse_args;
-use std::fmt::{Display, Formatter};
 use self::parse_args::Frame;
+use std::fmt::{Display, Formatter};
 
 enum VertDir {
     Up,
@@ -99,7 +99,7 @@ impl Ball {
 }
 
 fn main() -> Result<(), self::parse_args::ParseError> {
-    let frame = parse_args::parse_args()?; 
+    let frame = parse_args::parse_args()?;
     let mut game = Game::new(frame);
     let sleep_duration = std::time::Duration::from_millis(33);
     loop {
