@@ -1,3 +1,4 @@
+mod parse_args;
 use std::fmt::{Display, Formatter};
 
 enum VertDir {
@@ -123,7 +124,8 @@ impl Ball {
 }
 
 fn main() {
-    //println!("{}", Game::new());
+    println!("{:?}", parse_args::parse_args());
+    return;
     let mut game = Game::new();
     let sleep_duration = std::time::Duration::from_millis(33);
     loop {

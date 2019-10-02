@@ -1,11 +1,11 @@
 #[derive(Debug)]
-struct Frame {
+pub struct Frame {
     width: u32,
     height: u32,
 }
 
 #[derive(Debug)]
-enum ParseError {
+pub enum ParseError {
     TooFewArgs,
     TooManyArgs,
     InvalidInteger(String),
@@ -40,7 +40,7 @@ fn parse_u32(s: String) -> Result<u32, ParseError> {
     }
 }
 
-fn parse_args() -> Result<Frame, ParseError> {
+pub fn parse_args() -> Result<Frame, ParseError> {
     let mut args = ParseArgs::new(); 
 
     // skip the command name
