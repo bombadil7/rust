@@ -1,5 +1,3 @@
-use std::env::Args;
-
 #[derive(Debug)]
 struct Frame {
     width: u32,
@@ -21,6 +19,7 @@ impl ParseArgs {
     }
 
     fn require_arg(&mut self) -> Result<String, ParseError> {
+        match self.0.next() {
             None => Err(ParseError::TooFewArgs),
             Some(s) => Ok(s),
         }
