@@ -115,7 +115,9 @@ fn main () {
     let mut game = Game::new(frame);
     let sleep_duration = std::time::Duration::from_millis(33);
     loop {
-        println!("{}", game);
+        window.clear(); // get rid of old content
+        window.printw(game.to_string());    // write to the buffer
+        window.refresh();   // update the screen
         game.step();
         std::thread::sleep(sleep_duration);
     }
