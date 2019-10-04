@@ -29,14 +29,25 @@ struct Game {
 }
 
 impl Game {
-    fn new(frame: Frame) -> Game {
+    fn new(window: &pancurses::Window) -> Result<Game, String> {
+        let (max_y, max_x) = window.get_max_yx();
+
+        if max_y < 10 || max_x < 10 {
+            return Err(String::from("Window is too small, exiting"));
+        }
+
+        let frame = Frame {
+            width: max_x as u32 - 2,
+            height: max_y as u32 - 2,
+        };
+
         let ball = Ball {
             x: 2,
             y: 4,
             vert_dir: VertDir::Up,
             horiz_dir: HorizDir::Left,
         };
-        Game {frame, ball}
+        Ok(Game {frame, ball})
     }
 
     fn step(&mut self) {
@@ -106,19 +117,37 @@ impl Display for Game {
 fn main () {
     let window = pancurses::initscr();
 
-    let (max_y, max_x) = window.get_max_yx();
-    let frame = Frame {
-        width: max_x as u32,
-        height: max_y as u32,
-    };
-
-    let mut game = Game::new(frame);
+    let mut game = Game::new(&window)?;
     let sleep_duration = std::time::Duration::from_millis(33);
     loop {
         window.clear(); // get rid of old content
-        window.printw(game.to_string());    // write to the buffer
+        //window.printw(game.to_string());    // write to the buffer
+        window.border(
+            '|', // left side
+            '|', // right side
+            '-', // top side
+            '-', // bottom side
+            '+', // top left corner
+            '+', // top right corner
+            '+', // bottom left corner
+            '+');// bottom  right corner
         window.refresh();   // update the screen
-        game.step();
+        match window.getch() {
+            Some(pancurses::Input::Character('q')) => {
+                pancurses::endwin();
+                println!("Thanks for playing!");
+                return Ok(());
+            }
+
+            Some(pancurses::Input::KeyResize) => {
+                game = Game::new(&window);
+            }
+
+            _ => {
+                game.step();
+            }
+        }
+
         std::thread::sleep(sleep_duration);
     }
 }
