@@ -6,6 +6,17 @@ fn main() {
     let my_vec: Vec<u32> = (1..11).collect();
     println!("{:?}", my_vec);
 
-    let other_vec: Vec<u32> = my_vec.iter().map(|x| x * x).filter(|x| x % 2 != 0).collect();
+    let other_vec: Vec<u32> = my_vec
+        .iter()
+        .map(|x| x * x)
+        .filter(|x| x % 2 != 0)
+        .collect();
     println!("{:?}", other_vec);
+
+    let n = 11;
+    println!(
+        "The sum of first {} numbers is {}",
+        n,
+        (1..n).fold(0, |acc, x| acc + x)
+    );
 }
