@@ -36,11 +36,34 @@ impl Iterator for OneToTen {
     }
 }
 
-fn main() {
-    let num = OneToTen::new();
+struct Doubler<I> {
+    iter: I,
+}
 
-    for i in num.take(10) {
-        println!("The answer to life, the universe, and everything is {}", i);
+impl<I: Iterator<Item=u32>> Iterator for Doubler<I> {
+    type Item = u32;
+
+    fn next(&mut self) -> Option<u32> {
+        match self.iter.next() {
+            None => None,
+            Some(x) => Some(x * 2),
+        }
     }
-    println!("All done!");
+}
+
+fn main() {
+    //    let num = OneToTen::new();
+    //
+    //    for i in num.take(10) {
+    //        println!("The answer to life, the universe, and everything is {}", i);
+    //    }
+    //    println!("All done!");
+
+    let orig_iter = 1..11;
+    let doubled_iter = Doubler {
+        iter: orig_iter,
+    };
+    for i in doubled_iter {
+        println!("{}", i);
+    }
 }
