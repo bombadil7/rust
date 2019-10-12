@@ -1,18 +1,7 @@
 // Network Programming with Rust
 // Chapter 2 / syntactic_macros
 
-macro_rules! factorial {
-    ($x:expr) => {
-        {
-            let mut result = 1;
-
-            for i in 1..($x+1) {
-                result = result * i;
-            }
-            result
-        }
-    };
-}
+use syntactic_macro::factorial;
 
 fn main() {
     match std::env::args().nth(2) {

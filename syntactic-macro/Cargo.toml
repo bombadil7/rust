@@ -1,5 +1,5 @@
 [package]
-name = "syntactic-macro"
+name = "syntactic_macro"
 version = "0.1.0"
 authors = ["Andrei Kniazev <andrei.kniazev@yorlabs.com>"]
 edition = "2018"
