@@ -40,6 +40,10 @@ fn divide(dividend: u32, divisor: u32) -> Result<u32, OperationsError> {
 fn main() {
     let result1 = divide(100, 0);
     println!("{:?}", result1);
+    match result1 {
+        Err(e) => println!("{:?}", e),
+        Ok(res) => println!("{}", res),
+    } 
 
     let result2 = divide(100, 2);
     println!("{:?}", result2.unwrap());
