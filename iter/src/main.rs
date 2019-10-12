@@ -1,26 +1,69 @@
-struct Empty;
+//struct Empty;
+//
+//impl Iterator for Empty {
+//    type Item = u32;
+//
+//    fn next(&mut self) -> Option<<Self>::Item> {
+//        None
+//    }
+//}
 
-impl Iterator for Empty {
-    type Item = u32;
+//struct TheAnswer;
+//
+//impl Iterator for TheAnswer {
+//    type Item = u32;
+//
+//    fn next(&mut self) -> Option<u32> {
+//        Some(42)
+//    }
+//}
+//
+struct OneToTen(u32);
 
-    fn next(&mut self) -> Option<<Self>::Item> {
-        None
+impl OneToTen {
+    fn new() -> OneToTen {
+        //OneToTen {0: 0 }
+        OneToTen(0)
     }
 }
 
-struct TheAnswer;
-
-impl Iterator for TheAnswer {
+impl Iterator for OneToTen {
     type Item = u32;
 
     fn next(&mut self) -> Option<u32> {
-        Some(42)
+        self.0 += 1;
+        Some(self.0)
+    }
+}
+
+struct Doubler<I> {
+    iter: I,
+}
+
+impl<I: Iterator<Item=u32>> Iterator for Doubler<I> {
+    type Item = u32;
+
+    fn next(&mut self) -> Option<u32> {
+        match self.iter.next() {
+            None => None,
+            Some(x) => Some(x * 2),
+        }
     }
 }
 
 fn main() {
-    for i in TheAnswer.take(10) {
-        panic!("The answer to life, the universe, and everything is {}", i);
+    //    let num = OneToTen::new();
+    //
+    //    for i in num.take(10) {
+    //        println!("The answer to life, the universe, and everything is {}", i);
+    //    }
+    //    println!("All done!");
+
+    let orig_iter = 1..11;
+    let doubled_iter = Doubler {
+        iter: orig_iter,
+    };
+    for i in doubled_iter {
+        println!("{}", i);
     }
-    println!("All done!");
 }
